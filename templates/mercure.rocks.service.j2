@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+[Unit]
+Description=An open protocol for real-time communications designed to be fast, reliable and battery-efficient.
+After=network-online.target
+
+[Service]
+Type=simple
+
+User={{ mercure_rocks_user }}
+Group={{ mercure_rocks_user }}
+UMask=007
+
+ExecStart=/usr/bin/mercure
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

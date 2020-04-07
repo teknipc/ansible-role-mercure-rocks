@@ -1,0 +1,112 @@
+---
+- name: Ensure that variables are well defined
+  assert:
+    that:
+      - mercure_rocks_jwt_key is defined or (mercure_rocks_subscriber_jwt_key is defined and mercure_rocks_publish_publisher_jwt_key is defined) or (mercure_rocks_allow_anonymous is defined and mercure_rocks_allow_anonymous == "true")
+    fail_msg: 'You must define `mercure_rocks_jwt_key` variable or define both `mercure_rocks_subscriber_jwt_key` and `mercure_rocks_publish_publisher_jwt_key` or set `mercure_rocks_allow_anonymous` variable to "true"'
+
+# Create mercure user and group
+- name: create "{{ mercure_rocks_user }}" group
+  group:
+    name: "{{ mercure_rocks_user }}"
+    state: present
+
+- name: create "{{ mercure_rocks_user }}" user
+  user:
+    name: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    state: present
+
+# Mercure installation
+- name: Ensure mercure is installed
+  stat:
+    path: /etc/mercure/.installed_version
+  register: mercure_rocks_installed
+
+- name: Get installed version
+  command: "cat /etc/mercure/.installed_version"
+  register: mercure_rocks_installed_version
+  when: mercure_rocks_installed.stat.exists
+
+- name: Get latest release of a public repository
+  uri:
+    url: https://api.github.com/repos/dunglas/mercure/releases/latest
+    return_content: true
+  register: mercure_rocks_json_reponse
+  when: mercure_rocks_release is not defined
+
+- name: Extract version from latest public release
+  set_fact:
+    mercure_rocks_release: "{{ mercure_rocks_json_reponse.json.tag_name | regex_replace('^v(.*)$', '\\1') }}"
+  when: mercure_rocks_release is not defined
+
+- name: Create installation dir
+  file:
+    path: /opt/mercure
+    state: directory
+    mode: 0755
+
+- name: Download and extract mercure archive into /opt/mercure
+  unarchive:
+    src: "https://github.com/dunglas/mercure/releases/download/v{{ mercure_rocks_release }}/mercure_{{ mercure_rocks_release }}_Linux_x86_64.tar.gz"
+    dest: /opt/mercure
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    remote_src: yes
+  when: mercure_rocks_installed_version is not defined or not mercure_rocks_installed.stat.exists or mercure_rocks_release not in mercure_rocks_installed_version.stdout
+  notify: restart mercure.rocks
+
+- name: Create a symbolic link to /usr/bin/mercure
+  file:
+    src: /opt/mercure/mercure
+    dest: /usr/bin/mercure
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    state: link
+  when: not mercure_rocks_installed.stat.exists
+  notify: restart mercure.rocks
+
+# copy mercure config file
+- name: Create configuration directory
+  file:
+    path: /etc/mercure
+    state: directory
+    mode: 0755
+  when: not mercure_rocks_installed.stat.exists
+
+- name: Install mercure configuration file
+  template:
+    src: mercure.yaml.j2
+    dest: /etc/mercure/mercure.yaml
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    mode: 0755
+  notify: restart mercure.rocks
+
+- name: Install mercure installed version file
+  template:
+    src: installed_version.j2
+    dest: /etc/mercure/.installed_version
+    owner: "{{ mercure_rocks_user }}"
+    group: "{{ mercure_rocks_user }}"
+    mode: 0755
+  when: mercure_rocks_installed_version is not defined or not mercure_rocks_installed.stat.exists or mercure_rocks_release not in mercure_rocks_installed_version.stdout
+
+# systemd setup
+- name: Install systemd service
+  template:
+    src: mercure.rocks.service.j2
+    dest: "/lib/systemd/system/mercure.rocks.service"
+    owner: root
+    group: root
+    mode: 0644
+  when:
+    - ansible_service_mgr == "systemd"
+  notify:
+    - reload systemd
+
+- name: enable service mercure and ensure it is not masked
+  systemd:
+    name: mercure.rocks
+    enabled: yes
+    masked: no

@@ -1,0 +1,67 @@
+# {{ ansible_managed }}
+{% if mercure_rocks_acme_cert_dir is defined -%}
+acme_cert_dir: {{ mercure_rocks_acme_cert_dir }}
+{% endif -%}
+{% if mercure_rocks_acme_hosts is defined -%}
+acme_hosts: "{{ mercure_rocks_acme_hosts }}"
+{% endif -%}
+{% if mercure_rocks_acme_http01_addr is defined -%}
+acme_http01_addr: {{ mercure_rocks_acme_http01_addr }}
+{% endif -%}
+addr: {{ mercure_rocks_addr }}
+{% if mercure_rocks_allow_anonymous is defined -%}
+allow_anonymous: {{ mercure_rocks_allow_anonymous }}
+{% endif -%}
+{% if mercure_rocks_cert_file is defined -%}
+cert_file: "{{ mercure_rocks_cert_file }}"
+{% endif -%}
+{% if mercure_rocks_key_file is defined -%}
+key_file: "{{ mercure_rocks_key_file }}"
+{% endif -%}
+compress: {{ mercure_rocks_compress }}
+cors_allowed_origins: "{{ mercure_rocks_cors_allowed_origins }}"
+debug: {{ mercure_rocks_debug }}
+demo: {{ mercure_rocks_demo }}
+{% if mercure_rocks_heartbeat_interval is defined -%}
+heartbeat_interval: {{ mercure_rocks_heartbeat_interval }}
+{% endif -%}
+{% if mercure_rocks_transport_url is defined -%}
+transport_url: {{ mercure_rocks_transport_url }}
+{% endif -%}
+{% if mercure_rocks_jwt_key is defined -%}
+jwt_key: "{{ mercure_rocks_jwt_key }}"
+{% endif -%}
+{% if mercure_rocks_jwt_algorithm is defined -%}
+jwt_algorithm: "{{ mercure_rocks_jwt_algorithm }}"
+{% endif -%}
+log_format: "{{ mercure_rocks_log_format }}"
+{% if mercure_rocks_publish_allowed_origins is defined -%}
+publish_allowed_origins: "{{ mercure_rocks_publish_allowed_origins }}"
+{% endif -%}
+{% if mercure_rocks_publish_publisher_jwt_key is defined -%}
+publisher_jwt_key: "{{ mercure_rocks_publisher_jwt_key }}"
+{% endif -%}
+{% if mercure_rocks_publish_publisher_jwt_algorithm is defined -%}
+publisher_jwt_algorithm: "{{ mercure_rocks_publisher_jwt_algorithm }}"
+{% endif -%}
+{% if mercure_rocks_publish_read_timeout is defined -%}
+read_timeout: {{ mercure_rocks_read_timeout }}
+{% endif -%}
+{% if mercure_rocks_subscriber_jwt_key is defined -%}
+subscriber_jwt_key: "{{ mercure_rocks_subscriber_jwt_key }}"
+{% endif -%}
+{% if mercure_rocks_subscriber_jwt_algorithm is defined -%}
+subscriber_jwt_algorithm: "{{ mercure_rocks_subscriber_jwt_algorithm }}"
+{% endif -%}
+{% if mercure_rocks_write_timeout is defined -%}
+write_timeout: {{ mercure_rocks_write_timeout }}
+{% endif -%}
+{% if mercure_rocks_use_forwarded_headers is defined -%}
+use_forwarded_headers: {{ mercure_rocks_use_forwarded_headers }}
+{% endif -%}
+{% if mercure_rocks_dispatch_subscriptions is defined -%}
+dispatch_subscriptions: {{ mercure_rocks_dispatch_subscriptions }}
+{% endif -%}
+{% if mercure_rocks_subscriptions_include_ip is defined -%}
+subscriptions_include_ip: {{ mercure_rocks_subscriptions_include_ip }}
+{% endif -%}
