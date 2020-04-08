@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: mercure
   author: teknipc
   description: An Ansible role to deploy Mercure on Linux amd64 with systemd.
   company: TeKniPC
