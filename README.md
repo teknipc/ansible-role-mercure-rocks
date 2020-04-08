@@ -100,7 +100,7 @@ Example Playbook
       vars_files:
         - vars/main.yml
       roles:
-        - { role: teknipc.mercure-rocks }
+        - { role: teknipc.mercure }
 
 in `vars/main.yml`
 
