@@ -1,7 +1,7 @@
 Ansible Role: Mercure
 =========
 
-An Ansible role to deploy Mercure on Linux amd64 with inetd.
+An Ansible role to deploy Mercure on Linux amd64 with systemd.
 
 Mercure is a protocol allowing to push data updates to web browsers and other HTTP clients in a convenient, fast, reliable and battery-efficient way. It is especially useful to publish async and real-time updates of resources served through web APIs, to reactive web and mobile apps.
 
@@ -10,7 +10,7 @@ Visit [Mercure github repository](https://github.com/dunglas/mercure)
 Requirements
 ------------
 
-Linux OS with amd64 architecture and inetd as service manager.
+Linux OS with amd64 architecture and systemd as service manager.
 
 Role Variables
 --------------

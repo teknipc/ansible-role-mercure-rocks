@@ -1,6 +1,5 @@
 ---
 # defaults file for ansible-mercure-rocks
-
 mercure_rocks_user: mercure
 mercure_rocks_addr: "127.0.0.1:3000"
 mercure_rocks_compress: "true"

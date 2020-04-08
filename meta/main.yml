@@ -1,6 +1,6 @@
 galaxy_info:
   author: teknipc
-  description: An Ansible role to deploy Mercure on Linux amd64 with inetd.
+  description: An Ansible role to deploy Mercure on Linux amd64 with systemd.
   company: TeKniPC
   license: "license (BSD, MIT)"
   min_ansible_version: 2.8
@@ -9,4 +9,3 @@ galaxy_info:
     - networking
     - mercure
     - realtime
-
