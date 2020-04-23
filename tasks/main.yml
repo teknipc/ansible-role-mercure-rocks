@@ -1,9 +1,5 @@
 ---
-- name: Ensure that variables are well defined
-  assert:
-    that:
-      - mercure_rocks_jwt_key is defined or (mercure_rocks_subscriber_jwt_key is defined and mercure_rocks_publish_publisher_jwt_key is defined) or (mercure_rocks_allow_anonymous is defined and mercure_rocks_allow_anonymous == "true")
-    fail_msg: 'You must define `mercure_rocks_jwt_key` variable or define both `mercure_rocks_subscriber_jwt_key` and `mercure_rocks_publish_publisher_jwt_key` or set `mercure_rocks_allow_anonymous` variable to "true"'
+- include: preflight.yml
 
 # Create mercure user and group
 - name: create "{{ mercure_rocks_user }}" group
@@ -48,7 +44,7 @@
 
 - name: Download and extract mercure archive into /opt/mercure
   unarchive:
-    src: "https://github.com/dunglas/mercure/releases/download/v{{ mercure_rocks_release }}/mercure_{{ mercure_rocks_release }}_Linux_x86_64.tar.gz"
+    src: "https://github.com/dunglas/mercure/releases/download/v{{ mercure_rocks_release }}/mercure_{{ mercure_rocks_release }}_{{ ansible_system }}_{{ ansible_architecture }}.tar.gz"
     dest: /opt/mercure
     owner: "{{ mercure_rocks_user }}"
     group: "{{ mercure_rocks_user }}"

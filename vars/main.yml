@@ -1,2 +1,3 @@
 ---
 # vars file for ansible-mercure-rocks
+mercure_rocks_platforms: ["Darwin_i386", "Darwin_x86_64", "Linux_arm64", "Linux_armv6", "Linux_i386", "Linux_x86_64", "Windows_i386", "Windows_x86_64"]

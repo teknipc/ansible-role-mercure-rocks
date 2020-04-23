@@ -1,0 +1,12 @@
+---
+- name: Ensure that variables are well defined
+  assert:
+    that:
+      - mercure_rocks_jwt_key is defined or (mercure_rocks_subscriber_jwt_key is defined and mercure_rocks_publish_publisher_jwt_key is defined) or (mercure_rocks_allow_anonymous is defined and mercure_rocks_allow_anonymous == "true")
+    fail_msg: 'You must define `mercure_rocks_jwt_key` variable or define both `mercure_rocks_subscriber_jwt_key` and `mercure_rocks_publish_publisher_jwt_key` or set `mercure_rocks_allow_anonymous` variable to "true"'
+
+- name: Ensure platform is supported
+  assert:
+      that:
+        - ansible_system + "_" + ansible_architecture in mercure_rocks_platforms
+      fail_msg: "Your platform ({{ ansible_system }}_{{ ansible_architecture }}) is not supported"
