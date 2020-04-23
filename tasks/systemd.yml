@@ -1,0 +1,16 @@
+---
+- name: Install systemd service
+  template:
+    src: mercure.rocks.service.j2
+    dest: "/lib/systemd/system/mercure.rocks.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+
+- name: enable service mercure and ensure it is not masked
+  systemd:
+    name: mercure.rocks
+    enabled: yes
+    masked: no

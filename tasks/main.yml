@@ -89,20 +89,6 @@
   when: mercure_rocks_installed_version is not defined or not mercure_rocks_installed.stat.exists or mercure_rocks_release not in mercure_rocks_installed_version.stdout
 
 # systemd setup
-- name: Install systemd service
-  template:
-    src: mercure.rocks.service.j2
-    dest: "/lib/systemd/system/mercure.rocks.service"
-    owner: root
-    group: root
-    mode: 0644
+- include_tasks: systemd.yml
   when:
     - ansible_service_mgr == "systemd"
-  notify:
-    - reload systemd
-
-- name: enable service mercure and ensure it is not masked
-  systemd:
-    name: mercure.rocks
-    enabled: yes
-    masked: no
