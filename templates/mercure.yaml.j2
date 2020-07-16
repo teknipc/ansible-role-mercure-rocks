@@ -65,3 +65,12 @@ dispatch_subscriptions: {{ mercure_rocks_dispatch_subscriptions }}
 {% if mercure_rocks_subscriptions_include_ip is defined -%}
 subscriptions_include_ip: {{ mercure_rocks_subscriptions_include_ip }}
 {% endif -%}
+{% if mercure_rocks_metrics is defined -%}
+metrics: {{ mercure_rocks_metrics }}
+{% endif -%}
+{% if mercure_rocks_metrics_login is defined -%}
+metrics_login: {{ mercure_rocks_metrics_login }}
+{% endif -%}
+{% if mercure_rocks_metrics_password is defined -%}
+metrics_password: {{ mercure_rocks_metrics_password }}
+{% endif -%}
