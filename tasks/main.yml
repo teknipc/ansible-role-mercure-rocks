@@ -1,5 +1,5 @@
 ---
-- include: preflight.yml
+- include_tasks: preflight.yml
 
 # Create mercure user and group
 - name: create "{{ mercure_rocks_user }}" group
